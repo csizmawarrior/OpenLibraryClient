@@ -26,13 +26,12 @@ namespace OpenLibraryClientV2.Models
         public SearchModel()
         {
             m_api = new OpenLibraryAPI();
-            SearchQuery = "Hello world";
             Books = new List<Book>();
         }
 
-        public void PerformSearch()
+        public async Task<OpenLibraryAPI.SearchResponse> PerformSearch()
         {
-            // Place search here
+            return await m_api.PerformSearch(SearchQuery, OpenLibraryAPI.SearchField.Query);
         }
     }
 }
