@@ -9,5 +9,10 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         
+        <TextBlock x:Name="textBlock" 
+                   Margin="8 100 0 0"
+                   HorizontalAlignment="Left" 
+                   Text="{Binding Title}" 
+                   VerticalAlignment="Top"/>
     </Grid>
 </Page>

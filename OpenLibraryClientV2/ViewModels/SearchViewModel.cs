@@ -52,6 +52,8 @@ namespace OpenLibraryClientV2.ViewModels
 
             PerformSearchCommand = new Tools.RelayCommand((arg) =>
             { PerformSearch(); });
+
+            //Books.Add(new BookViewModel(new Book()));
         }
 
         void Book_OnNotifyPropertyChanged(Object sender, PropertyChangedEventArgs e)
@@ -61,7 +63,7 @@ namespace OpenLibraryClientV2.ViewModels
 
         private void BookListItemClicked()
         {
-            
+            Tools.NavigationController.GetInstance().Navigate(typeof(Views.BookDetailsView), _selectedItem);
         }
 
         private async void PerformSearch()

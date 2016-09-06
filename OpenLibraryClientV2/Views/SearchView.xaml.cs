@@ -25,12 +25,15 @@ namespace OpenLibraryClientV2
         public SearchView()
         {
             this.InitializeComponent();
-            
+
+            Loaded += ViewLoaded;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        void ViewLoaded(object sender, RoutedEventArgs e)
         {
-            base.OnNavigatedTo(e);
+            Tools.NavigationController.GetInstance().Frame = Frame;
+
+            DataContext = new ViewModels.SearchViewModel();
         }
     }
 }

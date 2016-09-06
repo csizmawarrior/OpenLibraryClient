@@ -35,7 +35,7 @@
             />
         <ListView
             ItemsSource="{Binding Books}"
-            SelectedItem="{Binding SelectedItem}"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             
             VerticalAlignment="Stretch" 
             HorizontalAlignment="Stretch" 
@@ -62,7 +62,7 @@
                             Source="{Binding Path=ImageUri}" 
                             Width="63" 
                             Height="100"
-                            Margin="8 8 0 8"/>
+                            Margin="0 8 0 8"/>
                         <TextBlock
                             Grid.Column="1"
                             Grid.Row="0"

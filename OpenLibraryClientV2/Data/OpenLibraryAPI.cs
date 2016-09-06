@@ -29,22 +29,34 @@ namespace OpenLibraryClientV2.Data
 
             b.Title = jsonObject.GetNamedString("title_suggest");
             b.Authors = new List<string>();
-            JsonArray array = jsonObject.GetNamedArray("author_name");
-            foreach (var el in array)
+
+            if (jsonObject.ContainsKey("author_name"))
             {
-                b.Authors.Add(el.GetString());
+                JsonArray array = jsonObject.GetNamedArray("author_name");
+                foreach (var el in array)
+                {
+                    b.Authors.Add(el.GetString());
+                }
             }
 
-            array = jsonObject.GetNamedArray("first_sentence");
-            foreach (var el in array)
+            b.FirstSentence = new List<string>();
+            if (jsonObject.ContainsKey("first_sentence"))
             {
-                b.FirstSentence.Add(el.GetString());
+                JsonArray array = jsonObject.GetNamedArray("first_sentence");
+                foreach (var el in array)
+                {
+                    b.FirstSentence.Add(el.GetString());
+                }
             }
 
-            array = jsonObject.GetNamedArray("subject");
-            foreach (var el in array)
+            b.Subjects = new List<string>();
+            if (jsonObject.ContainsKey("subject"))
             {
-                b.Subjects.Add(el.GetString());
+                JsonArray array = jsonObject.GetNamedArray("subject");
+                foreach (var el in array)
+                {
+                    b.Subjects.Add(el.GetString());
+                }
             }
 
             if (jsonObject.ContainsKey("cover_i"))

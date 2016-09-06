@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 
 namespace OpenLibraryClientV2.Tools
@@ -41,13 +42,36 @@ namespace OpenLibraryClientV2.Tools
 
             set
             {
-                
+                if (_frame != null)
+                {
+                    _frame.Navigated -= _navService_Navigated;
+                }
+
+                _frame = value;
+                _frame.Navigated += _navService_Navigated;
             }
         }
 
-        public void NavigateTo(Type t, object vm)
+        public void Navigate(Type page, object context)
         {
+            if (_frame == null || page == null)
+            {
+                return;
+            }
             
+            _frame.Navigate(page, context);
+        }
+
+        private void _navService_Navigated(object sender, NavigationEventArgs args)
+        {
+            var page = args.Content as Page;
+
+            if (page == null)
+            {
+                return;
+            }
+
+            page.DataContext = args.Parameter;
         }
     }
 }
