@@ -95,7 +95,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Data\FavoriteManager.cs" />
     <Compile Include="Data\OpenLibraryAPI.cs" />
+    <Compile Include="Models\BookDetailsModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Tools\NavigationController.cs" />
     <Compile Include="Tools\RelayCommand.cs" />

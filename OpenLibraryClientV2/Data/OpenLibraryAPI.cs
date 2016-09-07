@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.Web.Http;
 using Windows.Web;
 using Windows.Data.Json;
+using Windows.Storage;
 
 namespace OpenLibraryClientV2.Data
 {
@@ -17,11 +18,18 @@ namespace OpenLibraryClientV2.Data
 
         public Uri LargeImageUri { get; set; }
 
+        public string Key { get; set; }
+
         public List<string> FirstSentence { get; set; }
 
         public List<string> Authors { get; set; }
 
         public List<string> Subjects { get; set; }
+
+        public async static Task WriteToFolder(Book b, StorageFolder folder)
+        {
+            
+        }
 
         public static Book FromJsonObject(JsonObject jsonObject)
         {

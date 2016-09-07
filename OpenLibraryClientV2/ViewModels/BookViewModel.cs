@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace OpenLibraryClientV2.ViewModels
 {
-    class BookViewModel : NotificationBase<Book>
+    public class BookViewModel : NotificationBase<Book>
     {
         //public event PropertyChangedEventHandler PropertyChanged;
 
