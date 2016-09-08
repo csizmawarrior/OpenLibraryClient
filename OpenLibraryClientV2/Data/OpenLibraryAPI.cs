@@ -20,7 +20,7 @@ namespace OpenLibraryClientV2.Data
 
         public string Key { get; set; }
 
-        public List<string> FirstSentence { get; set; }
+        public List<string> FirstSentences { get; set; }
 
         public List<string> Authors { get; set; }
 
@@ -28,12 +28,59 @@ namespace OpenLibraryClientV2.Data
 
         public async static Task WriteToFolder(Book b, StorageFolder folder)
         {
-            
+            // Place file load here
+            JsonObject obj = new JsonObject();
+            obj["key"] = JsonValue.CreateStringValue(b.Key);
+            obj["title_suggested"] = JsonValue.CreateStringValue(b.Title);
+            obj["image"] = JsonValue.CreateStringValue(""); // Place file url
+
+            // Forming Authors
+            {
+                JsonArray authors = new JsonArray();
+                foreach (var author in b.Authors)
+                {
+                    authors.Add(JsonValue.CreateStringValue(author));
+                }
+
+                obj["authors"] = authors;
+            }
+
+            // Forming Subjects
+            {
+                JsonArray subjects = new JsonArray();
+                foreach (var subject in b.Subjects)
+                {
+                    subjects.Add(JsonValue.CreateStringValue(subject));
+                }
+
+                obj["subjects"] = subjects;
+            }
+
+            // Sentence
+            {
+                JsonArray firstArray = new JsonArray();
+                foreach (var sentence in b.FirstSentences)
+                {
+                    firstArray.Add(JsonValue.CreateStringValue(sentence));
+                }
+
+                obj["first_sentence"] = firstArray;
+            }
+
+            StorageFile file = await folder.CreateFileAsync("data.json");
+            var writeFile = await file.OpenAsync(FileAccessMode.ReadWrite);
+
+            await FileIO.WriteTextAsync(file, obj.ToString());
         }
 
         public async static Task<Book> ReadFromFolder(StorageFolder folder)
         {
             Book b = new Data.Book();
+
+            StorageFile file = await folder.GetFileAsync("data.json");
+            var readBuffer = await file.OpenReadAsync();
+
+            
 
             return b;
         }
@@ -55,13 +102,13 @@ namespace OpenLibraryClientV2.Data
                 }
             }
 
-            b.FirstSentence = new List<string>();
+            b.FirstSentences = new List<string>();
             if (jsonObject.ContainsKey("first_sentence"))
             {
                 JsonArray array = jsonObject.GetNamedArray("first_sentence");
                 foreach (var el in array)
                 {
-                    b.FirstSentence.Add(el.GetString());
+                    b.FirstSentences.Add(el.GetString());
                 }
             }
 
