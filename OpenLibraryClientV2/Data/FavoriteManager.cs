@@ -72,6 +72,18 @@ namespace OpenLibraryClientV2.Data
             }
         }
 
+        public async Task RemoveFromFavorites(Book book)
+        {
+            if (await IsFavorute(book))
+            {
+                string bookPath = ComputeMD5(book.Key);
+
+                StorageFolder f = await favFolder.GetFolderAsync(bookPath);
+
+                await f.DeleteAsync();
+            }
+        }
+
         public static string ComputeMD5(string str)
         {
             var alg = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Md5);

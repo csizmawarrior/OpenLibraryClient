@@ -12,15 +12,31 @@ namespace OpenLibraryClientV2.Models
     class BookDetailsModel
     {
         private Book _data;
+        private FavoriteManager _favManager = new FavoriteManager();
 
         public BookDetailsModel(Book data)
         {
             _data = data;
         }
 
-        public bool IsFavorite(Book book)
+        public async Task<bool> IsFavorite()
         {
+            return await IsFavorite(_data);
+        }
 
+        public async Task<bool> IsFavorite(Book book)
+        {
+            return await _favManager.IsFavorute(book);
+        }
+
+        public async Task AddToFavorites()
+        {
+            await _favManager.AddFavorite(_data);
+        }
+
+        public async Task RemoveFromFavorites()
+        {
+            await _favManager.RemoveFromFavorites(_data);
         }
     }
 }

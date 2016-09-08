@@ -19,20 +19,23 @@ namespace OpenLibraryClientV2.ViewModels
             set;
         }
 
+        private bool _isFav;
         public string LikeButtonName
         {
             get
             {
-                //todo: Добавить логику
-                return "Like";
+                if (_isFav)
+                    return "Like";
+                else
+                    return "Unlike";
             }
         }
 
-        BookDetailsViewModel _book;
+        BookDetailsModel _book;
 
         public BookDetailsViewModel(BookViewModel bookViewModel)
         {
-            _book = new BookDetailsViewModel(bookViewModel);
+            _book = new BookDetailsModel(bookViewModel);
             LikeUnlikeCommand = new Tools.RelayCommand((arg) =>
             { LikeUnlike(); });
         }
@@ -40,6 +43,11 @@ namespace OpenLibraryClientV2.ViewModels
         private void LikeUnlike()
         {
 
+        }
+
+        private async Task AddToFavs()
+        {
+            await _book.AddToFavorites();
         }
     }
 }
