@@ -52,6 +52,17 @@ namespace OpenLibraryClientV2.Tools
             }
         }
 
+        public bool TryGoBack()
+        {
+            if (_frame.CanGoBack)
+            {
+                Frame.GoBack();
+                return true;
+            }
+
+            return false;
+        }
+
         public void Navigate(Type page, object context)
         {
             if (_frame == null || page == null)
@@ -71,7 +82,10 @@ namespace OpenLibraryClientV2.Tools
                 return;
             }
 
-            page.DataContext = args.Parameter;
+            if (args.Parameter.GetType() != typeof(string))
+            {
+                page.DataContext = args.Parameter;
+            }
         }
     }
 }

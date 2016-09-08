@@ -103,10 +103,14 @@
     <Compile Include="Tools\RelayCommand.cs" />
     <Compile Include="ViewModels\BookDetailsViewModel.cs" />
     <Compile Include="ViewModels\BookViewModel.cs" />
+    <Compile Include="ViewModels\FavoritesViewModel.cs" />
     <Compile Include="ViewModels\NotificationBase.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="Views\BookDetailsView.xaml.cs">
       <DependentUpon>BookDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Favorites.xaml.cs">
+      <DependentUpon>Favorites.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
@@ -136,6 +140,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Views\BookDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Favorites.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

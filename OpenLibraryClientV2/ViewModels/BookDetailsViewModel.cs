@@ -13,22 +13,29 @@ namespace OpenLibraryClientV2.ViewModels
 {
     public class BookDetailsViewModel : NotificationBase
     {
-        public ICommand LikeUnlikeCommand
+        public ICommand LikeUnlikeBookCommand
+        {
+            get;
+            set;
+        }
+
+        public ICommand BackCommand
         {
             get;
             set;
         }
 
         private bool _isFav;
+        private string _likeButtonName;
         public string LikeButtonName
         {
-            get
-            {
-                if (_isFav)
-                    return "Like";
-                else
-                    return "Unlike";
-            }
+            get { return _likeButtonName; }
+            set { SetProperty(ref _likeButtonName, value); }
+        }
+
+        public string Title
+        {
+            get { return _book.Title; }
         }
 
         BookDetailsModel _book;
@@ -36,18 +43,47 @@ namespace OpenLibraryClientV2.ViewModels
         public BookDetailsViewModel(BookViewModel bookViewModel)
         {
             _book = new BookDetailsModel(bookViewModel);
-            LikeUnlikeCommand = new Tools.RelayCommand((arg) =>
+            LikeUnlikeBookCommand = new Tools.RelayCommand((arg) =>
             { LikeUnlike(); });
+
+            BackCommand = new Tools.RelayCommand((arg) =>
+            { Tools.NavigationController.GetInstance().TryGoBack(); });
+
+            CheckIsFav();
         }
 
-        private void LikeUnlike()
+        private async Task CheckIsFav()
         {
-
+            _isFav = await _book.IsFavorite();
+            UpdateLikeButtonName();
         }
 
-        private async Task AddToFavs()
+        private async void LikeUnlike()
         {
-            await _book.AddToFavorites();
+            if (_isFav)
+            {
+                _isFav = false;
+                await _book.RemoveFromFavorites();
+            }
+            else
+            {
+                _isFav = true;
+                await _book.AddToFavorites();
+            }
+
+            UpdateLikeButtonName();
+        }
+
+        private void UpdateLikeButtonName()
+        {
+            if (_isFav)
+            {
+                LikeButtonName = "Remove From Favs";
+            }
+            else
+            {
+                LikeButtonName = "Add To Favs";
+            }
         }
     }
 }

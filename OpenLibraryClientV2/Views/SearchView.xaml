@@ -12,6 +12,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -33,16 +34,24 @@
             Margin="0, 13, 13, 0"
             Command="{Binding PerformSearchCommand}"
             />
+        <Button
+            Grid.Column="2"
+            Grid.Row="0"
+            Content="Fav"
+            Margin="0, 13, 13, 0"
+            Command="{Binding TurnToFavoritesCommand}"
+            />
         <ListView
             ItemsSource="{Binding Books}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             
+            SelectionMode="None"
             VerticalAlignment="Stretch" 
             HorizontalAlignment="Stretch" 
             Height="Auto" 
             Margin="13,13,13,13"
             Grid.Row="1" 
-            Width="Auto" Grid.ColumnSpan="2"
+            Width="Auto" Grid.ColumnSpan="3"
             >
             <ListView.ItemTemplate>
                 <DataTemplate>

@@ -31,10 +31,18 @@ namespace OpenLibraryClientV2.Data
             
         }
 
+        public async static Task<Book> ReadFromFolder(StorageFolder folder)
+        {
+            Book b = new Data.Book();
+
+            return b;
+        }
+
         public static Book FromJsonObject(JsonObject jsonObject)
         {
             Book b = new Data.Book();
 
+            b.Key = jsonObject.GetNamedString("key");
             b.Title = jsonObject.GetNamedString("title_suggest");
             b.Authors = new List<string>();
 

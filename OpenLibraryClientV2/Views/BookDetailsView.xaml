@@ -14,19 +14,28 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <Button Content="Back"
+                Grid.Column="0"
+                Grid.Row="0"
+                Margin="8 8 8 8"
+                Command="{Binding BackCommand}"
+                />
         <TextBlock x:Name="textBlock" 
                    Grid.Column="0"
-                   Grid.Row="0"
-                   Margin="8 100 0 0"
-                   HorizontalAlignment="Left" 
+                   Grid.Row="1"
+                   Margin="8,0,0,0" 
                    Text="{Binding Title}" 
-                   VerticalAlignment="Top"/>
+                   VerticalAlignment="Top" 
+                   HorizontalAlignment="Left" 
+                   Width="0"/>
         <Button
             Grid.Column="1"
-            Grid.Row="0"
-            Content="{Binding LikeButtonName, Mode=OneWay}"
+            Grid.Row="1"
+            Margin="8 8 8 8"
+            Content="{Binding LikeButtonName, Mode=TwoWay}"
             Command="{Binding LikeUnlikeBookCommand}"
             />
     </Grid>

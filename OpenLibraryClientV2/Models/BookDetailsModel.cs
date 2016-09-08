@@ -14,6 +14,11 @@ namespace OpenLibraryClientV2.Models
         private Book _data;
         private FavoriteManager _favManager = new FavoriteManager();
 
+        public string Title
+        {
+            get { return _data.Title; }
+        }
+
         public BookDetailsModel(Book data)
         {
             _data = data;

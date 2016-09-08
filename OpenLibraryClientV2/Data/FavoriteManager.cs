@@ -22,7 +22,7 @@ namespace OpenLibraryClientV2.Data
 
         public async Task Init()
         {
-            favFolder = await folder.CreateFolderAsync("fav");
+            favFolder = await folder.CreateFolderAsync("fav", CreationCollisionOption.OpenIfExists);
         }
 
         public async Task<List<string>> GetFavoritesList()
@@ -82,6 +82,13 @@ namespace OpenLibraryClientV2.Data
 
                 await f.DeleteAsync();
             }
+        }
+
+        public async Task<Book> GetBook(string name)
+        {
+            StorageFolder f = await favFolder.GetFolderAsync(name);
+
+            return await Book.ReadFromFolder(f);
         }
 
         public static string ComputeMD5(string str)

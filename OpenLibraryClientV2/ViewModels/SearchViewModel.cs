@@ -36,11 +36,18 @@ namespace OpenLibraryClientV2.ViewModels
             set
             {
                 SetProperty(ref _selectedItem, value);
-                BookListItemClicked();
+                
+                BookListItemClicked(value);
             }
         }
 
         public ICommand PerformSearchCommand
+        {
+            get;
+            set;
+        }
+
+        public ICommand TurnToFavoritesCommand
         {
             get;
             set;
@@ -53,7 +60,8 @@ namespace OpenLibraryClientV2.ViewModels
             PerformSearchCommand = new Tools.RelayCommand((arg) =>
             { PerformSearch(); });
 
-            //Books.Add(new BookViewModel(new Book()));
+            TurnToFavoritesCommand = new Tools.RelayCommand((arg) =>
+            { OpenFavoritesPage(); });
         }
 
         void Book_OnNotifyPropertyChanged(Object sender, PropertyChangedEventArgs e)
@@ -61,9 +69,17 @@ namespace OpenLibraryClientV2.ViewModels
 
         }
 
-        private void BookListItemClicked()
+        private void OpenFavoritesPage()
         {
-            Tools.NavigationController.GetInstance().Navigate(typeof(Views.BookDetailsView), _selectedItem);
+            Tools.NavigationController.GetInstance().Navigate(typeof(Views.Favorites), new FavoritesViewModel());
+        }
+
+        private void BookListItemClicked(BookViewModel model)
+        {
+            Tools.NavigationController.GetInstance().Navigate(
+                typeof(Views.BookDetailsView), 
+                new BookDetailsViewModel(model)
+            );
         }
 
         private async void PerformSearch()
