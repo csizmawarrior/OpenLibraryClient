@@ -35,9 +35,14 @@ namespace OpenLibraryClientV2.ViewModels
             get { return _selectedItem; }
             set
             {
-                SetProperty(ref _selectedItem, value);
-                
-                BookListItemClicked(value);
+                if (value != null)
+                {
+                    SetProperty(ref _selectedItem, value);
+
+                    BookListItemClicked(value);
+
+                    SelectedItem = null;
+                }
             }
         }
 
@@ -71,7 +76,7 @@ namespace OpenLibraryClientV2.ViewModels
 
         private void OpenFavoritesPage()
         {
-            Tools.NavigationController.GetInstance().Navigate(typeof(Views.Favorites), new FavoritesViewModel());
+            Tools.NavigationController.GetInstance().Navigate(typeof(Views.Favorites));
         }
 
         private void BookListItemClicked(BookViewModel model)

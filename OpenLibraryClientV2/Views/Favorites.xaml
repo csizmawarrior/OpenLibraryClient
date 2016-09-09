@@ -7,6 +7,9 @@
     xmlns:ViewModels="using:OpenLibraryClientV2.ViewModels"
     x:Class="OpenLibraryClientV2.Views.Favorites"
     mc:Ignorable="d">
+    <Page.DataContext>
+        <ViewModels:FavoritesViewModel/>
+    </Page.DataContext>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
