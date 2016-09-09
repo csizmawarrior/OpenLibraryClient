@@ -76,6 +76,11 @@ namespace OpenLibraryClientV2.ViewModels
 
         private void BookListItemClicked(BookViewModel model)
         {
+            if (model == null)
+            {
+                return;
+            }
+
             Tools.NavigationController.GetInstance().Navigate(
                 typeof(Views.BookDetailsView), 
                 new BookDetailsViewModel(model)

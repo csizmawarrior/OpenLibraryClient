@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using OpenLibraryClientV2.Data;
@@ -16,12 +18,25 @@ namespace OpenLibraryClientV2.ViewModels
             set;
         }
 
-        private List<BookViewModel> _books = new List<BookViewModel>();
-        public List<BookViewModel> Books
+        private ObservableCollection<BookViewModel> _books = new ObservableCollection<BookViewModel>();
+        public ObservableCollection<BookViewModel> Books
         {
             get { return _books; }
             set { SetProperty(ref _books, value); }
         }
+
+        private BookViewModel _selectedItem;
+        public BookViewModel SelectedItem
+        {
+            get { return _selectedItem; }
+            set
+            {
+                SetProperty(ref _selectedItem, value);
+
+                BookListItemClicked(value);
+            }
+        }
+
 
         FavoriteManager favManager = new FavoriteManager();
 
@@ -41,6 +56,19 @@ namespace OpenLibraryClientV2.ViewModels
             {
                 Books.Add(new BookViewModel(await favManager.GetBook(name)));
             }
+        }
+
+        private void BookListItemClicked(BookViewModel model)
+        {
+            if (model == null)
+            {
+                return;
+            }
+
+            Tools.NavigationController.GetInstance().Navigate(
+                typeof(Views.BookDetailsView),
+                new BookDetailsViewModel(model)
+            );
         }
     }
 }

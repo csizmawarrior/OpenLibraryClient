@@ -19,6 +19,68 @@ namespace OpenLibraryClientV2.Models
             get { return _data.Title; }
         }
 
+        public Uri ImageUrl
+        {
+            get { return _data.LargeImageUri; }
+        }
+
+        public string Subjects
+        {
+            get
+            {
+                StringBuilder builder = new StringBuilder();
+
+                for (int i = 0; i < _data.Subjects.Count; ++i)
+                {
+                    builder.Append(_data.Subjects[i]);
+                    if (i < _data.Subjects.Count - 1)
+                    {
+                        builder.Append(", ");
+                    }
+                }
+
+                return builder.ToString();
+            }
+        }
+
+        public string Excerpts
+        {
+            get
+            {
+                StringBuilder builder = new StringBuilder();
+
+                for (int i = 0; i < _data.FirstSentences.Count; ++i)
+                {
+                    builder.Append(_data.FirstSentences[i]);
+                    if (i < _data.FirstSentences.Count - 1)
+                    {
+                        builder.Append('\n');
+                    }
+                }
+
+                return builder.ToString();
+            }
+        }
+
+        public string Authors
+        {
+            get
+            {
+                StringBuilder builder = new StringBuilder();
+
+                for (int i = 0; i < _data.Authors.Count; ++i)
+                {
+                    builder.Append(_data.Authors[i]);
+                    if (i < _data.Authors.Count - 1)
+                    {
+                        builder.Append(", ");
+                    }
+                }
+
+                return builder.ToString();
+            }
+        }
+
         public BookDetailsModel(Book data)
         {
             _data = data;

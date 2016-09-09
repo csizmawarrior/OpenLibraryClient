@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Web.Http;
+using Windows.Foundation;
+using Windows.Storage;
 using Windows.Web;
 using Windows.Data.Json;
-using Windows.Storage;
+using Windows.Networking.BackgroundTransfer;
+using Windows.Storage.Streams;
 
 namespace OpenLibraryClientV2.Data
 {
@@ -28,11 +31,37 @@ namespace OpenLibraryClientV2.Data
 
         public async static Task WriteToFolder(Book b, StorageFolder folder)
         {
-            // Place file load here
+            // todo: Fix for internet defects + optimize async functions
+
             JsonObject obj = new JsonObject();
+            StorageFile imageFile = await folder.CreateFileAsync("image.jpg", CreationCollisionOption.OpenIfExists);
+            
+            if (b.LargeImageUri != new Uri("ms-appx:/Assets/avatar_book-sm.png"))
+            {
+                HttpClient client = new HttpClient();
+
+                HttpResponseMessage response = new HttpResponseMessage();
+
+                response = await client.GetAsync(b.LargeImageUri);
+                response.EnsureSuccessStatusCode();
+
+                // todo: Monkey Coding Style. Fix this shit.
+                if (response.Headers.ContainsKey("Location"))
+                {
+                    response = await client.GetAsync(new Uri(response.Headers["Location"]));
+                    response.EnsureSuccessStatusCode();
+                }
+
+                var responseBody = await response.Content.ReadAsBufferAsync();
+                await FileIO.WriteBufferAsync(imageFile, responseBody);
+
+                obj["cover_local"] = JsonValue.CreateStringValue(imageFile.Path);
+            }
+            else
+                obj["cover_local"] = JsonValue.CreateStringValue("ms-appx:/Assets/avatar_book-sm.png");
+           
             obj["key"] = JsonValue.CreateStringValue(b.Key);
-            obj["title_suggested"] = JsonValue.CreateStringValue(b.Title);
-            obj["image"] = JsonValue.CreateStringValue(""); // Place file url
+            obj["title_suggest"] = JsonValue.CreateStringValue(b.Title);
 
             // Forming Authors
             {
@@ -42,7 +71,7 @@ namespace OpenLibraryClientV2.Data
                     authors.Add(JsonValue.CreateStringValue(author));
                 }
 
-                obj["authors"] = authors;
+                obj["author_name"] = authors;
             }
 
             // Forming Subjects
@@ -53,7 +82,7 @@ namespace OpenLibraryClientV2.Data
                     subjects.Add(JsonValue.CreateStringValue(subject));
                 }
 
-                obj["subjects"] = subjects;
+                obj["subject"] = subjects;
             }
 
             // Sentence
@@ -67,20 +96,19 @@ namespace OpenLibraryClientV2.Data
                 obj["first_sentence"] = firstArray;
             }
 
-            StorageFile file = await folder.CreateFileAsync("data.json");
-            var writeFile = await file.OpenAsync(FileAccessMode.ReadWrite);
 
+            StorageFile file = await folder.CreateFileAsync("data.json", CreationCollisionOption.OpenIfExists);
+            
             await FileIO.WriteTextAsync(file, obj.ToString());
         }
 
         public async static Task<Book> ReadFromFolder(StorageFolder folder)
         {
-            Book b = new Data.Book();
-
             StorageFile file = await folder.GetFileAsync("data.json");
-            var readBuffer = await file.OpenReadAsync();
 
-            
+            string data = await FileIO.ReadTextAsync(file);
+
+            Book b = Book.FromJsonObject(JsonObject.Parse(data));
 
             return b;
         }
@@ -129,8 +157,17 @@ namespace OpenLibraryClientV2.Data
             }
             else
             {
-                b.SmallImageUri = new Uri("ms-appx:/Assets/avatar_book-sm.png");
-                b.LargeImageUri = new Uri("ms-appx:/Assets/avatar_book-sm.png");
+                // For local loading
+                if (jsonObject.ContainsKey("cover_local"))
+                {
+                    b.SmallImageUri = new Uri(jsonObject.GetNamedString("cover_local"));
+                    b.LargeImageUri = new Uri(jsonObject.GetNamedString("cover_local"));
+                }
+                else
+                {
+                    b.SmallImageUri = new Uri("ms-appx:/Assets/avatar_book-sm.png");
+                    b.LargeImageUri = new Uri("ms-appx:/Assets/avatar_book-sm.png");
+                }
             }
 
             return b;

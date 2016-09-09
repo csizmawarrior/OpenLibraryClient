@@ -6,37 +6,86 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Button Content="Back"
-                Grid.Column="0"
-                Grid.Row="0"
-                Margin="8 8 8 8"
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto">
+        <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Button x:Name="backButton" 
+                Content="Back"
                 Command="{Binding BackCommand}"
-                />
-        <TextBlock x:Name="textBlock" 
-                   Grid.Column="0"
-                   Grid.Row="1"
-                   Margin="8,0,0,0" 
-                   Text="{Binding Title}" 
-                   VerticalAlignment="Top" 
+                HorizontalAlignment="Left" 
+                Height="32" 
+                VerticalAlignment="Top" 
+                Width="Auto" 
+                Margin="8 8 8 8"/>
+            <TextBlock x:Name="titleBlock"
+                   RelativePanel.Below="backButton"
                    HorizontalAlignment="Left" 
-                   Width="0"/>
-        <Button
-            Grid.Column="1"
-            Grid.Row="1"
-            Margin="8 8 8 8"
-            Content="{Binding LikeButtonName, Mode=TwoWay}"
-            Command="{Binding LikeUnlikeBookCommand}"
-            />
-    </Grid>
+                   Height="Auto" 
+                   TextWrapping="Wrap" 
+                   Text="{Binding Title}" 
+                   Width="Auto"
+                   Margin="8 0 8 8" FontSize="20"/>
+            <TextBlock x:Name="authorsTitle"
+                       RelativePanel.RightOf="titleBlock"
+                       RelativePanel.AlignBottomWith="titleBlock"
+                       Height="Auto"
+                       Width="Auto"
+                       Text="By"
+                       Margin="0 0 8 8"
+                       FontSize="18"/>
+
+            <TextBlock x:Name="authors"
+                       RelativePanel.RightOf="authorsTitle"
+                       RelativePanel.AlignBottomWith="titleBlock"
+                       Height="Auto"
+                       Width="Auto"
+                       Text="{Binding AuthorsString}"
+                       Margin="0 0 8 8"
+                       FontSize="18"/>
+            <Image x:Name="largeTitle"
+                   Width="Auto"
+                   RelativePanel.Below="authors"
+                   Source="{Binding ImageUrl}"/>
+            <Button x:Name="favButton" 
+                    Content="{Binding LikeButtonName}" 
+                    Command="{Binding LikeUnlikeBookCommand}"
+                    RelativePanel.AlignTopWith="titleBlock"
+                    RelativePanel.AlignRightWithPanel="True"
+                    HorizontalAlignment="Right" 
+                    Height="32"  
+                    Width="Auto"
+                    Margin="8 0 8 8"/>
+            <TextBlock x:Name="subjectsTitle"
+                       RelativePanel.Below="largeTitle"
+                       Height="Auto" 
+                       TextWrapping="Wrap" 
+                       Text="Subjects" 
+                       Width="Auto"
+                       Margin="8 16 8 8" 
+                       FontSize="17"/>
+            <TextBlock x:Name="subjects"
+                       RelativePanel.Below="subjectsTitle"
+                       Height="Auto" 
+                       TextWrapping="Wrap" 
+                       Text="{Binding SubjectsString}" 
+                       Width="Auto"
+                       Margin="8 0 8 8"/>
+            <TextBlock x:Name="excerptsTitle"
+                       RelativePanel.Below="subjects"
+                       Height="Auto"
+                       TextWrapping="Wrap"
+                       Text="Excerpts"
+                       Width="Auto"
+                       Margin="8 0 8 8"
+                       FontSize="18"/>
+            <TextBlock x:Name="excerpts"
+                       RelativePanel.Below="excerptsTitle"
+                       Height="Auto"
+                       TextWrapping="Wrap" 
+                       Text="{Binding ExcerptsString}" 
+                       Width="Auto"
+                       Margin="8 0 8 8"/>
+        </RelativePanel>
+    </ScrollViewer>
 </Page>

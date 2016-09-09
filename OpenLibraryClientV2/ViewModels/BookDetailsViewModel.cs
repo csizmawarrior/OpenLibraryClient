@@ -38,6 +38,27 @@ namespace OpenLibraryClientV2.ViewModels
             get { return _book.Title; }
         }
 
+        public Uri ImageUrl
+        {
+            get { return _book.ImageUrl; }
+        }
+
+        public string SubjectsString
+        {
+            get { return _book.Subjects; }
+        }
+
+        public string ExcerptsString
+        {
+            get { return _book.Excerpts; }
+        }
+
+        public string AuthorsString
+        {
+            get { return _book.Authors; }
+        }
+
+
         BookDetailsModel _book;
 
         public BookDetailsViewModel(BookViewModel bookViewModel)

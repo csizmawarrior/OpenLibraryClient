@@ -45,11 +45,11 @@
             ItemsSource="{Binding Books}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             
-            SelectionMode="None"
+            SelectionMode="Extended"
             VerticalAlignment="Stretch" 
             HorizontalAlignment="Stretch" 
             Height="Auto" 
-            Margin="13,13,13,13"
+            Margin="8 8 8 8"
             Grid.Row="1" 
             Width="Auto" Grid.ColumnSpan="3"
             >
